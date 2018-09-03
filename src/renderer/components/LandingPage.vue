@@ -17,51 +17,51 @@
 </template>
 
 <script>
-    import DragBar from '@/components/DragBar'
-    import os from 'os'
-    import storage from 'electron-json-storage'
+import DragBar from '@/components/DragBar'
+import os from 'os'
+import storage from 'electron-json-storage'
 
-    export default {
-        name: 'landing-page',
-        components: {
-            DragBar
-        },
-        data() {
-            return {
-                form: {
-                    email: '',
-                    password: '',
-                }
-            }
-        },
-        created() {
-            storage.get('auth-token', function(error, data) {
-                if (data['token']) {
-                    console.log(data['token'])
-                } else {
-                    console.log('user does not have token saved, must log in')
-                }
-            })
-        },
-        methods: {
-            login() {
-                // do all the auth stuff
-                storage.set('auth-token', { token: 'abcdefgh'}, function(error) {
-                    if (error) {
-                        throw error
-                    }
-                })
-
-                this.$router.push({
-                    path: 'home'
-                })
-
-            },
-            open (link) {
-                this.$electron.shell.openExternal(link)
+export default {
+    name: 'landing-page',
+    components: {
+        DragBar
+    },
+    data() {
+        return {
+            form: {
+                email: '',
+                password: '',
             }
         }
+    },
+    created() {
+        storage.get('auth-token', function(error, data) {
+            if (data['token']) {
+                console.log(data['token'])
+            } else {
+                console.log('user does not have token saved, must log in')
+            }
+        })
+    },
+    methods: {
+        login() {
+            // do all the auth stuff
+            storage.set('auth-token', { token: 'abcdefgh'}, function(error) {
+                if (error) {
+                    throw error
+                }
+            })
+
+            this.$router.push({
+                path: 'home'
+            })
+
+        },
+        open (link) {
+            this.$electron.shell.openExternal(link)
+        }
     }
+}
 </script>
 
 <style>
