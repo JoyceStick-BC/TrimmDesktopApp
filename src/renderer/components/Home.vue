@@ -1,8 +1,8 @@
 <template lang="html">
     <div class="main">
+        <button type="button" class="signout" @click.prevent="logout">Sign out</button>
         <DragBar></DragBar>
         <div class="project-selector-container">
-            <button type="button" class="signout" @click.prevent="logout">Sign out</button>
             <input type="checkbox" class="project-selector-state" id="project-selector-state-id">
             <label for="project-selector-state-id" class="project-selector-state-label">
                 {{ (currentDirectory != null ? currentDirectory.name : 'No Project Selected')}}
@@ -24,64 +24,88 @@ import os from 'os'
 import storage from 'electron-json-storage'
 
 export default {
-    components: {
-        DragBar
-    },
-    data() {
-        return {
-            savedDirectories: null,
-            currentDirectory: null,
-        }
-    },
-    created() {
-        var self = this
-        storage.getMany(['saved-directories', 'last-directory'], function(error, data) {
-            if (data['saved-directories']) {
-                self.savedDirectories = data['saved-directories']['directories']
-            } if (data['last-directory']) {
-                self.currentDirectory = data['last-directory']['directory']
-            }
-        })
-    },
-    methods: {
-        logout() {
-            this.$router.push({
-                path: 'landing-page'
-            })
-        },
-        processNewFolder() {
-            this.currentDirectory = event.target.files[0]
-            this.savedDirectories[this.currentDirectory.path] = this.currentDirectory.name
-            var self = this
-            // Save new directory from the object attached to this
-            storage.set('saved-directories', { directories: self.savedDirectories}, function(error) {
-                if (error) {
-                    console.log(error)
-                }
-            })
-            // Save new folder as most recent
-            var tempDirectory = {}
-            tempDirectory.path = self.currentDirectory.path
-            tempDirectory.name = self.currentDirectory.name
-            storage.set('last-directory', { directory: tempDirectory }, function(error) {
-                if (error) {
-                    console.log(error)
-                }
-            })
-            // Uncheck to hide project selector
-            document.getElementById('project-selector-state-id').checked = false
-        }
+  components: {
+    DragBar
+  },
+  data() {
+    return {
+      savedDirectories: null,
+      currentDirectory: null,
     }
+  },
+  created() {
+    var self = this
+    storage.getMany(['saved-directories', 'last-directory'], function(error, data) {
+      if (data['saved-directories']) {
+        self.savedDirectories = data['saved-directories']['directories']
+      }
+      if (data['last-directory']) {
+        self.currentDirectory = data['last-directory']['directory']
+      }
+    })
+  },
+  methods: {
+    logout() {
+      this.$router.push({
+        path: 'landing-page'
+      })
+    },
+    processNewFolder() {
+      this.currentDirectory = event.target.files[0]
+      this.savedDirectories[this.currentDirectory.path] = this.currentDirectory.name
+      var self = this
+      // Save new directory from the object attached to this
+      storage.set('saved-directories', {
+        directories: self.savedDirectories
+      }, function(error) {
+        if (error) {
+          console.log(error)
+        }
+      })
+      // Save new folder as most recent
+      var tempDirectory = {}
+      tempDirectory.path = self.currentDirectory.path
+      tempDirectory.name = self.currentDirectory.name
+      storage.set('last-directory', {
+        directory: tempDirectory
+      }, function(error) {
+        if (error) {
+          console.log(error)
+        }
+      })
+      // Uncheck to hide project selector
+      document.getElementById('project-selector-state-id').checked = false
+    }
+  }
 }
 </script>
 
 <style lang="css">
+
+    @import url('https://fonts.googleapis.com/css?family=Nunito:300,400,600,700');
+
+    body {
+        background-color: #20176f;
+        padding: none;
+        margin: 0;
+        font-family: 'Nunito', sans-serif;
+    }
+
     .signout {
         display: block;
+        position: absolute;
+        z-index: 4;
+        right: 0;
+        margin-top: 0px;
+        border: none;
+        background: none;
+        margin-right: 5px;
+        color: white;
+        line-height: 18px;
+        cursor: pointer;
     }
 
     .project-selector-container {
-
     }
 
     .project-selector-state {
@@ -106,7 +130,8 @@ export default {
     }
 
     #project-selector-state-id:checked ~ #project-selector {
-        display: block
+        display: block;
+        top: 0;
     }
 
     .project-selector {
@@ -116,6 +141,7 @@ export default {
         display: none;
         position: absolute;
         z-index: 3;
-        top: 0;
+        top: 100vh;
+        transition: 0.2s ease all;
     }
 </style>
