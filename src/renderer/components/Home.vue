@@ -5,7 +5,7 @@
         <div class="project-selector-container">
             <input type="checkbox" class="project-selector-state" id="project-selector-state-id">
             <label for="project-selector-state-id" class="project-selector-state-label">
-                {{ (currentDirectory != null ? currentDirectory.name : 'No Project Selected')}}
+                {{ (currentDirectory != null ? currentDirectory.name : 'Select Project Directory')}}
             </label>
             <div class="project-selector" id="project-selector">
                 <label for="project-selector-state-id" class="project-selector-state-label-selected" ></label>
@@ -15,6 +15,7 @@
                 </div>
             </div>
         </div>
+        <TrimmDownload></TrimmDownload>
     </div>
 </template>
 
@@ -22,22 +23,26 @@
 import DragBar from '@/components/DragBar'
 import os from 'os'
 import storage from 'electron-json-storage'
+import TrimmDownload from '@/components/TrimmDownload'
 
 export default {
   components: {
-    DragBar
+    DragBar,
+    TrimmDownload
   },
   data() {
     return {
-      savedDirectories: null,
+      savedDirectories: {},
       currentDirectory: null,
     }
   },
   created() {
     var self = this
+
     storage.getMany(['saved-directories', 'last-directory'], function(error, data) {
-      if (data['saved-directories']) {
+      if (data['saved-directories']['directories']) {
         self.savedDirectories = data['saved-directories']['directories']
+        console.log(self.savedDirectories)
       }
       if (data['last-directory']) {
         self.currentDirectory = data['last-directory']['directory']
