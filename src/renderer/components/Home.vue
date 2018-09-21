@@ -2,10 +2,13 @@
     <div class="main">
         <button type="button" class="signout" @click.prevent="logout">Sign out</button>
         <DragBar></DragBar>
+        <div class="title">
+          Trimm3d
+        </div>
         <div class="project-selector-container">
             <input type="checkbox" class="project-selector-state" id="project-selector-state-id">
             <label for="project-selector-state-id" class="project-selector-state-label">
-                {{ (currentDirectory != null ? currentDirectory.name : 'Select Project Directory')}}
+                {{ 'Current Project: ' + (currentDirectory != null ? currentDirectory.name : 'Select Project Directory')}}
             </label>
             <div class="project-selector" id="project-selector">
                 <label for="project-selector-state-id" class="project-selector-state-label-selected" ></label>
@@ -16,6 +19,7 @@
             </div>
         </div>
         <TrimmDownload></TrimmDownload>
+        <TrimmUpload></TrimmUpload>
     </div>
 </template>
 
@@ -24,11 +28,13 @@ import DragBar from '@/components/DragBar'
 import os from 'os'
 import storage from 'electron-json-storage'
 import TrimmDownload from '@/components/TrimmDownload'
+import TrimmUpload from '@/components/TrimmUpload'
 
 export default {
   components: {
     DragBar,
-    TrimmDownload
+    TrimmDownload,
+    TrimmUpload
   },
   data() {
     return {
@@ -110,20 +116,33 @@ export default {
         cursor: pointer;
     }
 
+    .title {
+        color: white;
+        margin-top: 10px;
+        margin-left: 5%;
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
     .project-selector-container {
     }
 
     .project-selector-state {
         display: none;
+        text-align: center;
+        padding: 10px;
     }
 
     .project-selector-state-label {
-        width: 100%;
+        width: 90%;
         background-color: #614cdb;
         color: white;
         display: block;
         text-align: center;
-        padding: 5px 0px
+        padding: 5px 0px;
+        border-radius: 4px;
+        margin: auto;
     }
 
     .project-selector-state-label-selected {
@@ -148,5 +167,15 @@ export default {
         z-index: 3;
         top: 100vh;
         transition: 0.2s ease all;
+    }
+
+    /* global classes */
+    .title-small {
+        color: white;
+        margin-top: 10px;
+        margin-left: 5%;
+        margin-bottom: 4px;
+        font-size: 17px;
+        font-weight: 600;
     }
 </style>

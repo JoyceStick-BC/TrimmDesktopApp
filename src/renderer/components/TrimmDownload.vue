@@ -1,8 +1,15 @@
 <template lang="html">
   <div class="">
+    <div class="title-container">
+      <div class="title-small">
+        Download Assets
+        <a class="trimm-pull-button" @click.prevent="trimmPull">Reinstall All</a>
+      </div>
+
+    </div>
     <div class="trimm-download">
-      <div class="trimm-pull">
-        <a class="trimm-pull-button" @click.prevent="trimmPull">Trimm Pull All Assets</a>
+      <div class="trimm-search">
+        <input type="text" class="trimm-search-input" @input="searchInputChanged" v-model="searchInputValue" placeholder="Search Asset Store">
       </div>
     </div>
   </div>
@@ -14,6 +21,7 @@ export default {
     return {
       util: require("util"),
       spawn: require("child_process").spawn,
+      searchInputValue: '',
     }
   },
   created() {
@@ -31,24 +39,63 @@ export default {
         var response = new TextDecoder("utf-8").decode(error);
         console.log(response);
       })
-    }
+    },
+    searchInputChanged() {
+      console.log(this.searchInputValue)
+    },
   }
 }
 </script>
 
 <style lang="css">
+
+.title-container {
+  display: block;
+}
+
 .trimm-download {
-  padding: 10px;
+  width: 90%;
+  margin: auto;
+  display: block;
 }
 
 .trimm-pull {
   background-color: #392c9f;
   color: white;
   border-radius: 4px;
+  margin-top: 10px;
 
 }
 
 .trimm-pull-button {
-  padding: 5px;
+  display: inline-block;
+  float: right;
+  margin-right: 5%;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.title-inline {
+  display: inline-block;
+  float: left;
+}
+
+.trimm-search-input {
+  display: block;
+  border: none;
+  border-radius: 4px;
+  background-color: #392c9f;
+  height: 22px;
+  width: 100%;
+  color: white;
+  font-weight: 500;
+  padding-left: 5px;
+  font-size: 13px;
+}
+
+.trimm-search-input::placeholder {
+  color: #DCDCDC;
+  font-size: 13px;
 }
 </style>
