@@ -53,20 +53,6 @@ export default {
   display: block;
 }
 
-.trimm-download {
-  width: 90%;
-  margin: auto;
-  display: block;
-}
-
-.trimm-pull {
-  background-color: #392c9f;
-  color: white;
-  border-radius: 4px;
-  margin-top: 10px;
-
-}
-
 .trimm-pull-button {
   display: inline-block;
   float: right;
@@ -76,9 +62,10 @@ export default {
   cursor: pointer;
 }
 
-.title-inline {
-  display: inline-block;
-  float: left;
+.trimm-download {
+  width: 90%;
+  margin: auto;
+  display: block;
 }
 
 .trimm-search-input {

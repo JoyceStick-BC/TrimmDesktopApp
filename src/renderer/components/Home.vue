@@ -178,4 +178,11 @@ export default {
         font-size: 17px;
         font-weight: 600;
     }
+
+    .text {
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
 </style>
