@@ -59,7 +59,7 @@ export default {
         },
         open (link) {
             this.$electron.shell.openExternal(link)
-        }
+        },
     }
 }
 </script>
@@ -97,6 +97,8 @@ export default {
         margin: 0;
         margin-left: 5%;
         margin-bottom: 5px;
+        font-size: 19px;
+        font-weight: 600;
     }
 
     .login-input {
@@ -111,10 +113,12 @@ export default {
         color: white;
         box-shadow: 0 0 0 1px rgba(49,49,93,.03), 0 2px 5px 0 rgba(49,49,93,.1), 0 1px 2px 0 rgba(0,0,0,.08);
         padding: 0px 5px;
+        font-weight: 600;
+        font-size: 13px;
     }
 
     .login-input::placeholder {
-        color: #DCDCDC;
+
     }
 
     .login-submit {
@@ -126,6 +130,8 @@ export default {
         background-color: #614cdb;
         padding: 10px 15px;
         border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
     }
 
     .hover-pointer {

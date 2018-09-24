@@ -82,7 +82,6 @@ export default {
 }
 
 .trimm-search-input::placeholder {
-  color: #DCDCDC;
   font-size: 13px;
 }
 </style>

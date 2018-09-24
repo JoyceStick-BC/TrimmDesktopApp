@@ -107,20 +107,22 @@ export default {
         position: absolute;
         z-index: 4;
         right: 0;
-        margin-top: 0px;
+        margin-top: 1px;
         border: none;
         background: none;
-        margin-right: 5px;
+        margin-right: 5%;
         color: white;
         line-height: 18px;
         cursor: pointer;
+        font-size: 14px;
+        font-weight: 400;
     }
 
     .title {
         color: white;
         margin-top: 10px;
         margin-left: 5%;
-        font-size: 22px;
+        font-size: 26px;
         font-weight: 600;
         margin-bottom: 8px;
     }
@@ -175,7 +177,7 @@ export default {
         margin-top: 10px;
         margin-left: 5%;
         margin-bottom: 4px;
-        font-size: 17px;
+        font-size: 19px;
         font-weight: 600;
     }
 

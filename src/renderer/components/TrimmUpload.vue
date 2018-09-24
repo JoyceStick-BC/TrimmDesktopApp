@@ -7,9 +7,9 @@
       <div class="input-and-upload">
         <input type="file" @change="processFileInput" id="file-input">
         <label class="text" for="file-input">{{ fileName }}</label>
-        <a class="upload-button" :class="{ 'clickable' : fileIsSelected }" @click.prevent="uploadAsset">Upload</a>
+        <a class="upload-button" :class="{ 'clickable' : fileIsSelected  && assetDescription != ''}" @click.prevent="uploadAsset">Upload</a>
       </div>
-      <textarea class="description-input" rows="4" cols="53" placeholder="Add a description to your asset"></textarea>
+      <textarea v-model="assetDescription" class="description-input" rows="4" cols="53" placeholder="Add a description to your asset"></textarea>
     </div>
   </div>
 </template>
@@ -19,7 +19,8 @@ export default {
   data() {
     return {
       fileIsSelected: false,
-      fileName: 'Choose a file to upload...'
+      fileName: 'Choose a file to upload...',
+      assetDescription: ''
     }
   },
   methods: {
@@ -29,7 +30,7 @@ export default {
       this.fileName = event.target.files[0].name
     },
     uploadAsset() {
-      
+
     }
   }
 }
