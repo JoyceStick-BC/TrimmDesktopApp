@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        <TrimmDownload></TrimmDownload>
+        <TrimmDownload :token="token" :path="currentDirectory"></TrimmDownload>
         <TrimmUpload></TrimmUpload>
     </div>
 </template>
@@ -29,6 +29,7 @@ import os from 'os'
 import storage from 'electron-json-storage'
 import TrimmDownload from '@/components/TrimmDownload'
 import TrimmUpload from '@/components/TrimmUpload'
+import axios from 'axios'
 
 export default {
   components: {
@@ -40,18 +41,24 @@ export default {
     return {
       savedDirectories: {},
       currentDirectory: null,
+      token: ''
     }
   },
   created() {
     var self = this
 
-    storage.getMany(['saved-directories', 'last-directory'], function(error, data) {
+    storage.getMany(['saved-directories', 'last-directory', 'auth-token'], function(error, data) {
+        console.log(data)
       if (data['saved-directories']['directories']) {
         self.savedDirectories = data['saved-directories']['directories']
         console.log(self.savedDirectories)
       }
       if (data['last-directory']) {
         self.currentDirectory = data['last-directory']['directory']
+      }
+      if (data['auth-token']['token']) {
+          self.token = data['auth-token']['token']
+          axios.defaults.headers.common['Authorization'] = self.token;
       }
     })
   },

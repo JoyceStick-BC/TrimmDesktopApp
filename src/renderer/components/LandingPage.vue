@@ -110,7 +110,8 @@ export default {
 
             // Redirect
             this.$router.push({
-                path: 'home'
+                path: 'home/',
+                code: key
             })
         },
         open (link) {
