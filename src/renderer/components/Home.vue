@@ -57,6 +57,7 @@ export default {
   },
   methods: {
     logout() {
+      storage.remove('auth-token')
       this.$router.push({
         path: 'landing-page'
       })

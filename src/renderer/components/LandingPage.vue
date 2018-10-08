@@ -8,8 +8,10 @@
           <form @submit.prevent="login">
               <p class="login-info">Email</p>
               <input placeholder="example@example.com" v-model="form.email" class="login-input hover-pointer">
+              <p class="error">{{ errors.email }}</p>
               <p class="login-info">Password</p>
               <input type="password" placeholder="password" v-model="form.password" class="login-input hover-pointer">
+              <p class="error">{{ errors.password }}</p>
               <button type="submit" class="login-submit hover-pointer">Sign in</button>
           </form>
       </div>
@@ -32,6 +34,10 @@ export default {
             form: {
                 email: '',
                 password: '',
+            },
+            errors: {
+                email: '',
+                password: ''
             }
         }
     },
@@ -61,6 +67,10 @@ export default {
     },
     methods: {
         login() {
+            // Reset errors
+            this.errors.email = ''
+            this.errors.password = ''
+
             var self = this
             axios.post(process.env.HOST_URL + 'api/auth', {
                 //headers: {"Access-Control-Allow-Origin": "*"},
@@ -82,11 +92,11 @@ export default {
                         if (response.data['success']) {
                             self.processKey(response.data['final_key'])
                         } else {
-                            console.log('Key exchange failed')
+                            self.errors.email = "Exchange code did not match"
                         }
                     })
                 } else {
-                    console.log('Incorrect login')
+                    self.errors.email = 'Incorrect username/password'
                 }
             })
         },
@@ -130,6 +140,13 @@ export default {
         margin-left: 5%;
         font-size: 20px;
         font-weight: 600;
+    }
+
+    .error {
+        font-size: 10px;
+        color: pink;
+        margin-left: 5%;
+        padding: 0;
     }
 
     .login-form {
