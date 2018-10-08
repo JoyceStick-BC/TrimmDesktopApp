@@ -36,9 +36,24 @@ export default {
         }
     },
     created() {
+        var self = this
         storage.get('auth-token', function(error, data) {
             if (data['token']) {
-                console.log(data['token'])
+                axios.post(process.env.HOST_URL + 'api/check-authCode', {
+                    params: {
+                        code: data['token']
+                    }
+                }).then(function(response) {
+                    console.log(response)
+                    if (response.data['success']) {
+                        // Redirect
+                        self.$router.push({
+                            path: 'home'
+                        })
+                    } else {
+                        console.log('Key did not match')
+                    }
+                })
             } else {
                 console.log('user does not have token saved, must log in')
             }
@@ -54,9 +69,7 @@ export default {
                     'password': this.form.password
                 }
             }).then(function(response) {
-                console.log(response)
                 if (response.data['success']) {
-                    console.log('hello')
                     // Auth code was successful, send back the exchange code
                     axios.post(process.env.HOST_URL + 'api/verify-code', {
                         headers: {"Access-Control-Allow-Origin": "*"},
@@ -78,12 +91,14 @@ export default {
             })
         },
         processKey(key) {
+            // Set key in local storage
             storage.set('auth-token', { token: key}, function(error) {
                 if (error) {
                     throw error
                 }
             })
 
+            // Redirect
             this.$router.push({
                 path: 'home'
             })
