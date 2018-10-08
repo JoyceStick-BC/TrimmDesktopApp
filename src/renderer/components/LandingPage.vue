@@ -20,6 +20,7 @@
 import DragBar from '@/components/DragBar'
 import os from 'os'
 import storage from 'electron-json-storage'
+import axios from 'axios'
 
 export default {
     name: 'landing-page',
@@ -45,8 +46,39 @@ export default {
     },
     methods: {
         login() {
-            // do all the auth stuff
-            storage.set('auth-token', { token: 'abcdefgh'}, function(error) {
+            var self = this
+            axios.post(process.env.HOST_URL + 'api/auth', {
+                //headers: {"Access-Control-Allow-Origin": "*"},
+                params: {
+                    'username': this.form.email,
+                    'password': this.form.password
+                }
+            }).then(function(response) {
+                console.log(response)
+                if (response.data['success']) {
+                    console.log('hello')
+                    // Auth code was successful, send back the exchange code
+                    axios.post(process.env.HOST_URL + 'api/verify-code', {
+                        headers: {"Access-Control-Allow-Origin": "*"},
+                        params: {
+                            'code': response.data['key'],
+                            'userFirstFour': self.form.email.substring(0, 4)
+                        }
+                    }).then(function(response) {
+                        // Final key returned
+                        if (response.data['success']) {
+                            self.processKey(response.data['final_key'])
+                        } else {
+                            console.log('Key exchange failed')
+                        }
+                    })
+                } else {
+                    console.log('Incorrect login')
+                }
+            })
+        },
+        processKey(key) {
+            storage.set('auth-token', { token: key}, function(error) {
                 if (error) {
                     throw error
                 }
@@ -55,7 +87,6 @@ export default {
             this.$router.push({
                 path: 'home'
             })
-
         },
         open (link) {
             this.$electron.shell.openExternal(link)

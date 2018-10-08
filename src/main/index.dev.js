@@ -9,6 +9,7 @@
 
 // Set environment for development
 process.env.NODE_ENV = 'development'
+process.env.HOST_URL = 'http://localhost:8080/'
 
 // Install `electron-debug` with `devtron`
 require('electron-debug')({ showDevTools: true })
